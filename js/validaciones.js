@@ -4,10 +4,9 @@ export function valida(input) {
     validadores[tipoDeInput](input);
   }
 
-  // console.log(input.parentElement);
   if (input.validity.valid) {
     input.parentElement.classList.remove("input-container--invalid");
-    input.parentElement.querySelector(".input-message-error").innerHTML = " ";
+    input.parentElement.querySelector(".input-message-error").innerHTML = "";
   } else {
     input.parentElement.classList.add("input-container--invalid");
     input.parentElement.querySelector(".input-message-error").innerHTML =
@@ -15,7 +14,7 @@ export function valida(input) {
   }
 }
 
-const tiposDeErrores = [
+const tipoDeErrores = [
   "valueMissing",
   "typeMismatch",
   "patternMismatch",
@@ -24,24 +23,24 @@ const tiposDeErrores = [
 
 const mensajesDeError = {
   nombre: {
-    valueMissing: "Este campo nombre no puede estar vacio",
+    valueMissing: "El campo nombre no puede estar vacío",
   },
   email: {
-    valueMissing: "Este campo email no puede estar vacio",
-    typeMismatch: "El correo no es valido",
+    valueMissing: "El campo correo no puede estar vacío",
+    typeMismatch: "El correo no es válido",
   },
   password: {
-    valueMissing: "Este campo password no puede estar vacio",
+    valueMissing: "El campo contraseña no puede estar vacío",
     patternMismatch:
-      "Almenos 6 caracteres, maximo 12, debe contener un lestras minusculas, una letra mayuscula, un Número y no puede conteneres especiales",
+      "Al menos 6 caracteres, máximo 12, debe contener una letra minúscula, una letra mayúscula, un número y no puede contener caracteres especiales.",
   },
   nacimiento: {
-    valueMissing: "Este campo no puede estar vacio",
+    valueMissing: "Este campo no puede estar vacío",
     customError: "Debes tener al menos 18 años de edad",
   },
   numero: {
-    valueMissing: "Este campo no puede estar vacio",
-    patternMismatch: "El formato requerido es xxxxxxxxxx 10 numeros",
+    valueMissing: "Este campo no puede estar vacío",
+    patternMismatch: "El formato requerido es XXXXXXXXXX 10 números",
   },
   direccion: {
     valueMissing: "Este campo no puede estar vacío",
@@ -62,10 +61,10 @@ const validadores = {
 };
 
 function mostrarMensajeDeError(tipoDeInput, input) {
-  let mensaje = " ";
-  tiposDeErrores.forEach((error) => {
+  let mensaje = "";
+  tipoDeErrores.forEach((error) => {
     if (input.validity[error]) {
-      console.log(error);
+      console.log(tipoDeInput, error);
       console.log(input.validity[error]);
       console.log(mensajesDeError[tipoDeInput][error]);
       mensaje = mensajesDeError[tipoDeInput][error];
@@ -76,10 +75,11 @@ function mostrarMensajeDeError(tipoDeInput, input) {
 
 function validarNacimiento(input) {
   const fechaCliente = new Date(input.value);
-  let mensaje = " ";
+  let mensaje = "";
   if (!mayorDeEdad(fechaCliente)) {
     mensaje = "Debes tener al menos 18 años de edad";
   }
+
   input.setCustomValidity(mensaje);
 }
 
